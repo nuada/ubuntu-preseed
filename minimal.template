@@ -1,0 +1,118 @@
+# Force debconf priority to critical.
+debconf debconf/priority select critical
+# Override default frontend to Noninteractive
+debconf debconf/frontend select Noninteractive
+
+### Localization
+d-i debconf/language string en
+d-i debian-installer/locale string pl_PL.UTF-8
+d-i debian-installer/language string en
+d-i debian-installer/country string PL
+d-i debian-installer/locale string en
+d-i debian-installer/splash boolean false
+d-i localechooser/supported-locales en_US.UTF-8, pl_PL.UTF-8
+
+# Keyboard selection.
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/layoutcode string pl
+
+### Network configuration
+d-i netcfg/wireless_wep string
+
+# Set network interface or 'auto'
+d-i netcfg/choose_interface select auto
+
+# Any hostname and domain names assigned from dhcp take precedence over
+# values set here.
+#d-i netcfg/get_hostname string ubuntu
+d-i netcfg/get_domain string internal
+
+### Clock and time zone setup
+d-i clock-setup/utc boolean true
+d-i time/zone string Europe/Warsaw
+d-i clock-setup/ntp boolean true
+d-i clock-setup/ntp-server string 1.pl.pool.ntp.org
+
+### Partitions
+## Controlling how partitions are mounted
+# The default is to mount by UUID, but you can also choose "traditional" to
+# use traditional device names, or "label" to try filesystem labels before
+# falling back to UUIDs.
+d-i partman/mount_style select traditional
+
+### Base system installation
+d-i base-installer/install-recommends boolean false
+
+### Account setup
+d-i passwd/root-login boolean false
+d-i passwd/make-user boolean true
+d-i passwd/user-fullname string ubuntu
+d-i passwd/username string ubuntu
+# TODO probably you need some decent password
+d-i passwd/user-password password your_password_goes_here
+d-i passwd/user-password-again password your_password_goes_here
+d-i user-setup/allow-password-weak boolean true
+#d-i passwd/user-default-groups string audio cdrom video
+d-i user-setup/encrypt-home boolean false
+
+### Apt setup
+d-i apt-setup/restricted boolean true
+d-i apt-setup/universe boolean true
+
+### Package selection
+tasksel tasksel/first multiselect
+tasksel/skip-tasks multiselect server
+d-i pkgsel/ubuntu-standard boolean false
+# or...
+#tasksel tasksel/first multiselect ubuntu-desktop
+#tasksel tasksel/first multiselect ubuntu-standard
+#tasksel tasksel/first multiselect kubuntu-desktop
+
+# Allowed values: none, safe-upgrade, full-upgrade
+d-i pkgsel/upgrade select none
+d-i pkgsel/ignore-incomplete-language-support boolean true
+d-i pkgsel/include string vim openssh-server localepurge python-minimal
+
+# Language pack selection
+d-i pkgsel/install-language-support boolean false
+d-i pkgsel/language-pack-patterns string
+d-i pkgsel/language-packs multiselect
+# or ...
+#d-i pkgsel/language-packs multiselect en, pl
+
+# Policy for applying updates. May be "none" (no automatic updates),
+# "unattended-upgrades" (install security updates automatically), or
+# "landscape" (manage system with Landscape).
+d-i pkgsel/update-policy select unattended-upgrades
+
+d-i pkgsel/updatedb boolean false
+
+### Boot loader installation
+#d-i grub-installer/only_debian boolean true
+#d-i grub-installer/with_other_os boolean true
+# Manualy select drive for bootloader - workaround for USB hijacking /dev/sda
+d-i grub-installer/only_debian boolean false
+d-i grub-installer/with_other_os boolean false
+
+### Finishing up the installation
+d-i finish-install/reboot_in_progress note
+d-i cdrom-detect/eject boolean true
+
+### Preseeding other packages
+#   debconf-get-selections >> file
+popularity-contest popularity-contest/participate boolean false
+
+### localpurge
+localepurge localepurge/dontbothernew boolean true
+localepurge localepurge/mandelete boolean true
+localepurge localepurge/none_selected boolean false
+localepurge localepurge/nopurge multiselect en, pl, pl_PL, pl_PL.UTF-8
+localepurge localepurge/quickndirtycalc boolean false
+localepurge localepurge/remove_no note
+localepurge localepurge/showfreedspace boolean true
+localepurge localepurge/use-dpkg-feature boolean true
+localepurge localepurge/verbose boolean false
+
+### GRUB
+grub-pc grub-pc/hidden_timeout  boolean true
+grub-pc grub-pc/timeout string  0

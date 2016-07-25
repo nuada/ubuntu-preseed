@@ -1,0 +1,42 @@
+### software RAID1 + LVM + crypto
+d-i partman/early_command string \
+   mdadm --create --force --metadata=1.2 --level=1 --raid-devices=2 /dev/md/0 \
+      $(list-devices disk | tr '\n' ' '); \
+   debconf-set grub-installer/bootdev $(list-devices disk | \
+      cut -d / -f 3 | tr '\n' ' ' | sed -e 's/sd\(.\)/(hd\1,0)/g' | tr abc 012)
+d-i partman-auto/disk string /dev/md/0
+d-i partman-auto/method string crypto
+# TODO set some password
+d-i partman-crypto/passphrase password your_password_goes_here
+d-i partman-crypto/passphrase-again password your_password_goes_here
+d-i partman-md/device_remove_md boolean true
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/device_remove_lvm_span boolean true
+d-i partman-auto/purge_lvm_from_device  boolean true
+d-i partman-auto-lvm/new_vg_name string vg0
+d-i partman-auto/expert_recipe string \
+   boot-crypto ::                        \
+      256 512 512 ext3                \
+         $primary{ } $bootable{ }     \
+         method{ format } format{ }   \
+         use_filesystem{ }            \
+         filesystem{ ext3 }           \
+         mountpoint{ /boot }          \
+         .                            \
+      1000 20000 -1 ext4              \
+         $lvmok{ } lv_name { root }   \
+         method{ format } format{ }   \
+         use_filesystem{ }            \
+         filesystem{ ext4 }           \
+         mountpoint{ / }              \
+         .                            \
+      16384 16384 18432 linux-swap    \
+         $lvmok{ } lv_name { swap }   \
+         method{ swap } format{ }     \
+         .
+d-i partman-lvm/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+d-i mdadm/boot_degraded boolean true

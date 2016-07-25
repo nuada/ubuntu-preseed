@@ -1,0 +1,27 @@
+### LVM + crypto
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string crypto
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/device_remove_lvm_span boolean true
+d-i partman-auto/purge_lvm_from_device  boolean true
+d-i partman-auto-lvm/new_vg_name string system
+d-i partman-auto/expert_recipe string         \
+   boot-crypto ::                             \
+      512 512 512 ext3                        \
+         $primary{ } $bootable{ }             \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext3 } \
+         mountpoint{ /boot } .                \
+      1000 20000 -1 ext4                      \
+         $lvmok{ }                            \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ / } .                    \
+      16384 16384 16384 linux-swap            \
+         $lvmok{ }                            \
+         method{ swap } format{ } .
+d-i partman-lvm/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true

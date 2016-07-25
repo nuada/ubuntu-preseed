@@ -1,0 +1,9 @@
+# Default DHCP networking
+d-i netcfg/confirm_static boolean true
+#d-i netcfg/dhcp_failed note
+#d-i netcfg/dhcp_options select Do not configure the network at this time
+d-i netcfg/get_gateway string 
+d-i netcfg/get_ipaddress string 
+d-i netcfg/get_nameservers string 
+d-i netcfg/get_netmask string 255.255.255.0
+d-i netcfg/dhcp_hostname string ubuntu

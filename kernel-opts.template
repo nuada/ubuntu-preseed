@@ -1,0 +1,2 @@
+d-i debian-installer/add-kernel-opts string nofb nomodeset vga=normal console=tty12 console=ttyS4,115200n8
+

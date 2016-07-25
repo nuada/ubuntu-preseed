@@ -1,0 +1,12 @@
+# Use local mirror, eg. apt-cacher-ng
+d-i apt-setup/security_host string 192.168.0.101:3142
+d-i apt-setup/security_path string /ubuntu
+d-i apt-setup/services-select multiselect security
+d-i mirror/country string manual
+d-i mirror/http/countries string manual
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/hostname string 192.168.0.101:3142
+d-i mirror/http/mirror string 192.168.0.101:3142
+d-i mirror/http/proxy string
+d-i mirror/suite string trusty
+# TODO remove proxy after instalation from /etc/apt/sources.list
