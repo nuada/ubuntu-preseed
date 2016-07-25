@@ -1,0 +1,1 @@
+kill-all-dhcp; netcfg
