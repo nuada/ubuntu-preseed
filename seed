@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "# $*"
+cat "$@" | grep -v '^#' | grep -v '^$' | sed -e ':x; /\\$/ N;s/\\\n//;tx' -e 's/  \+/ /g' | sort
