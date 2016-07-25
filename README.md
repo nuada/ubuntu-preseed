@@ -1,11 +1,12 @@
-# Ubuntu preseed
+# Ubuntu preseed templates
 
-## Netboot ISO
-```
-http://pl.mirror.archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso
-```
+## ISO
 
-## Boot opions
+* [Ubuntu 12.04 (precise)](http://pl.mirror.archive.ubuntu.com/ubuntu/dists/precise/main/installer-amd64/current/images/netboot/mini.iso)
+* [Ubuntu 14.04 (trusty)](http://pl.mirror.archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso)
+* [Ubuntu 16.04 (xenial)](http://pl.mirror.archive.ubuntu.com/ubuntu/dists/xenial/main/installer-amd64/current/images/netboot/mini.iso)
+
+## Boot options
 
 Kernel boot options if DHCP is available:
 ```
@@ -28,9 +29,11 @@ python -m SimpleHTTPServer 8000
 
 ## Preseed file
 
-Create suitable preseed file by combining templates:
+Create suitable preseed file by combining templates, eg.:
 ```
 ./seed minimal.template net-dhcp.template local-proxy.template partitions-boot-root-swap.template > seed
-# or
+```
+or
+```
 ./seed minimal.template net-static.template partitions-boot-crypto.template > seed
 ```
