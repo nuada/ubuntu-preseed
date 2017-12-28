@@ -1,3 +1,15 @@
 #!/bin/bash
+
+if [[ $(uname) == 'Darwin' ]]; then
+	SED=$(which gsed)
+else
+	SED=$(which sed)
+fi
+
+if [[ ! -f $SED ]]; then
+	echo 'NEED SED!'
+	exit 1
+fi
+
 echo "# $*"
-cat "$@" | grep -v '^#' | grep -v '^$' | sed -e ':x; /\\$/ N;s/\\\n//;tx' -e 's/  \+/ /g' | sort
+cat "$@" | grep -v '^#' | grep -v '^$' | $SED -e ':x; /\\$/ N;s/\\\n//;tx' -e 's/  \+/ /g' | sort
