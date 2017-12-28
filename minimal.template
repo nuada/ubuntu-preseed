@@ -70,7 +70,7 @@ d-i pkgsel/ubuntu-standard boolean false
 # Allowed values: none, safe-upgrade, full-upgrade
 d-i pkgsel/upgrade select none
 d-i pkgsel/ignore-incomplete-language-support boolean true
-d-i pkgsel/include string vim openssh-server localepurge python-minimal
+d-i pkgsel/include string vim openssh-server localepurge python
 
 # Language pack selection
 d-i pkgsel/install-language-support boolean false
