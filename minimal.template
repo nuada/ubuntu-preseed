@@ -38,7 +38,7 @@ d-i clock-setup/ntp-server string 1.pl.pool.ntp.org
 # The default is to mount by UUID, but you can also choose "traditional" to
 # use traditional device names, or "label" to try filesystem labels before
 # falling back to UUIDs.
-d-i partman/mount_style select traditional
+d-i partman/mount_style select label
 
 ### Base system installation
 d-i base-installer/install-recommends boolean false
