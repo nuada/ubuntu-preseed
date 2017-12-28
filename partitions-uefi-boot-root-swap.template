@@ -1,0 +1,40 @@
+### Simple GPT configuration w/o LVM
+d-i partman-auto/disk string /dev/sdb
+
+d-i partman/alignment string cylinder
+d-i partman/confirm_write_new_label boolean true
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+
+d-i partman-auto/method string regular
+d-i partman-auto/choose_recipe select gpt-boot-root-swap
+d-i partman-auto/expert_recipe string         \
+   gpt-boot-root-swap ::                      \
+      1 1 1 free                              \
+         $bios_boot{ }                        \
+         method{ biosgrub } .                 \
+      200 200 200 fat32                       \
+         $primary{ }                          \
+         method{ efi } format{ } .            \
+      512 512 512 ext3                        \
+         $primary{ } $bootable{ }             \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext3 } \
+         mountpoint{ /boot } .                \
+      1000 20000 -1 ext4                      \
+         $primary{ }                          \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ / } .                    \
+      65536 65536 65536 linux-swap            \
+         $primary{ }                          \
+         method{ swap } format{ } .
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
