@@ -49,10 +49,9 @@ d-i passwd/make-user boolean true
 d-i passwd/user-fullname string ubuntu
 d-i passwd/username string ubuntu
 # TODO probably you need some decent password
-d-i passwd/user-password password your_password_goes_here
-d-i passwd/user-password-again password your_password_goes_here
+d-i passwd/user-password password ubuntu
+d-i passwd/user-password-again password ubuntu
 d-i user-setup/allow-password-weak boolean true
-#d-i passwd/user-default-groups string audio cdrom video
 d-i user-setup/encrypt-home boolean false
 
 ### Apt setup
