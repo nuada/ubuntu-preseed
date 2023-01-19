@@ -1,4 +1,4 @@
-### Simple GPT configuration w/o LVM
+### Simple GPT configuration without LVM
 d-i partman-auto/disk string /dev/sdb
 
 d-i partman/alignment string cylinder
